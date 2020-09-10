@@ -1,0 +1,17 @@
+{
+   "compilerOptions": {
+      "baseUrl": "./src",
+      "jsx": "react",
+      "moduleResolution": "Node",
+      "allowJs": true,
+      "paths": {
+         "~*": ["./*"]
+      },
+      "strict": true,
+      "target": "ES2015",
+      "allowSyntheticDefaultImports": true,
+      "types": []
+   },
+   "include": ["src/**/*"],
+   "exclude": ["node_modules"]
+}
