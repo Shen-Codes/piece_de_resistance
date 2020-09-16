@@ -19,6 +19,7 @@ export interface DayState {
 export interface TimeObj {
    date: moment.Moment;
    dayOfWeek?: string;
+   tasks: Array<{}>;
 }
 
 export interface TimeArray {

@@ -1,17 +1,18 @@
 {
-   "compilerOptions": {
-      "baseUrl": "./src",
-      "jsx": "react",
-      "moduleResolution": "Node",
-      "allowJs": true,
-      "paths": {
-         "~*": ["./*"]
-      },
-      "strict": true,
-      "target": "ES2015",
-      "allowSyntheticDefaultImports": true,
-      "types": []
-   },
-   "include": ["src/**/*"],
-   "exclude": ["node_modules"]
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "jsx": "react",
+    "moduleResolution": "Node",
+    "allowJs": true,
+    "paths": {
+      "~*": ["./*"]
+    },
+    // "strict": true,
+    "noImplicitAny": false,
+    "target": "ES2015",
+    "allowSyntheticDefaultImports": true,
+    "types": []
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { DayState, TimeArray } from '../constants/interfaces';
 import ArrayPopulate from '../utils/arrayPopulate';
 import { setDaysArray } from '../actions';
-import OneDay from '../components/oneDay';
+import OneDay from '../components/time-units/oneDay';
 import { CalendarMain, CalContainer } from './styles';
 
 const Calendar: React.FC<any> = (props: any): any => {
@@ -29,7 +29,10 @@ const Calendar: React.FC<any> = (props: any): any => {
                   key={x.date.format('YYYY-MM-DD')}
                   dayOfWeek={x.dayOfWeek}
                   date={x.date.format('YYYY-MM-DD')}
-               />
+                  tasks={x.tasks}
+               >
+                  Hello
+               </OneDay>
             ))}
          </CalContainer>
       </CalendarMain>
