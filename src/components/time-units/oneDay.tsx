@@ -1,95 +1,62 @@
-import React, { useState, useCallback } from 'react';
-import moment from 'moment';
+import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { v4 as uuidv4 } from 'uuid';
 import { StyledCard } from './styles';
 import { ItemTypes } from '../../constants/itemTypes';
 import { Card } from '../card/card';
+import { TaskObj } from '../../constants/interfaces';
 
 interface Props {
   dayOfWeek: string;
-  date: moment.Moment;
-  tasks: any;
+  date: string;
+  tasks: Array<TaskObj>;
+  moveCard: (atIndex: number, atDate: string, id: string) => void;
+  findIndex: (id: string) => { index: number; date: string };
 }
 
-const OneDay: React.FC<Props> = (props: Props): any => {
-  const [tasks, setTasks] = useState([]);
+const OneDay: React.FC<Props> = ({
+  date,
+  dayOfWeek,
+  tasks,
+  moveCard,
+  findIndex
+}): any => {
   const [addState, setAddState] = useState(false);
 
-  const [{ getItem }, drop] = useDrop({
-    accept: ItemTypes.CARD,
-    drop: (item, monitor) => {
-      onDrop(item, monitor, props.date);
-    },
-    collect: monitor => ({
-      getItem: monitor.getItem()
-    })
+  const [, drop] = useDrop({
+    accept: ItemTypes.CARD
   });
-
-  const onDrop = useCallback(
-    (item: any, monitor: any, date: any) => {
-      let hoverIndex = 0;
-      if (!getItem) {
-        hoverIndex = 0;
-      } else {
-        hoverIndex = getItem.hoverIndex;
-      }
-      console.log(monitor);
-      setTasks(prevState => {
-        if (item.date !== props.date) {
-          item = { ...item, date: props.date };
-        }
-        const newItems = prevState.filter(i => i.id !== item.id);
-        newItems.splice(hoverIndex, 0, item);
-        return [...newItems];
-      });
-    },
-    [tasks]
-  );
-
-  const moveCard = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
-      const dragCard = tasks[dragIndex];
-
-      setTasks(prevState => {
-        const newItems = prevState.filter((item, idx) => idx !== dragIndex);
-        newItems.splice(hoverIndex, 0, dragCard);
-        return [...newItems];
-      });
-    },
-    [tasks]
-  );
 
   return (
     <StyledCard ref={drop}>
-      <h4>{props.dayOfWeek}</h4>
-      <h4>{props.date}</h4>
+      <h4>{dayOfWeek}</h4>
+      <h4>{date}</h4>
       <button onClick={() => setAddState(true)}>Add</button>
       {addState && (
         <Card
-          setId={uuidv4}
           text=""
-          index={0}
           addState={addState}
           setAddState={setAddState}
           moveCard={moveCard}
-          setTasks={setTasks}
-          date={props.date}
+          findIndex={findIndex}
+          date={date}
+          key={1}
         />
       )}
       <h6>Tasks</h6>
-      {tasks.length > 0 &&
-        tasks.map((task: any, i) => (
-          <Card
-            id={task.id}
-            text={task.text}
-            index={i}
-            moveCard={moveCard}
-            setTasks={setTasks}
-            date={props.date}
-            key={task.id}
-          />
-        ))}
+      {tasks.map((task: any, i) => {
+        return (
+          task.id && (
+            <Card
+              key={task.id}
+              id={task.id}
+              text={task.text}
+              moveCard={moveCard}
+              date={task.date}
+              findIndex={findIndex}
+            />
+          )
+        );
+      })}
     </StyledCard>
   );
 };

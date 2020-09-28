@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+import { useDispatch } from 'react-redux';
+import { useDrag, useDrop } from 'react-dnd';
+import { v4 as uuidv4 } from 'uuid';
 import { ItemTypes } from '../../constants/itemTypes';
-import { XYCoord } from 'dnd-core';
+import { setSingleTask } from '../../actions';
 
 const style = {
   border: '1px dashed gray',
@@ -12,42 +14,38 @@ const style = {
 };
 
 export interface CardProps {
-  id?: any;
-  setId?: any;
+  id?: string;
   text: string;
-  index: number;
   addState?: boolean;
   setAddState?: any;
-  setTasks: any;
-  date: any;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
+  date: string;
+  moveCard: (atIndex: number, atDate: string, id: string) => void;
+  findIndex: (id: string) => { index: number; date: string };
 }
 
 interface DragItem {
-  index: number;
   id: string;
   type: string;
 }
 export const Card: React.FC<CardProps> = ({
   id,
-  setId,
   text,
-  index,
   addState,
   setAddState,
-  setTasks,
   date,
-  moveCard
+  moveCard,
+  findIndex
 }) => {
   const [textData, setTextData] = useState(text);
   const [editState, setEditState] = useState(false);
+  const dispatch = useDispatch();
 
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
 
-  const setToggle = () => {
-    if (addState) {
+  const setToggle = (): void => {
+    if (addState && !editState) {
       setAddState(false);
-    } else {
+    } else if (!addState && editState) {
       setEditState(false);
     }
   };
@@ -59,58 +57,36 @@ export const Card: React.FC<CardProps> = ({
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (id) {
-      setTasks(prevState =>
-        prevState.map(task => {
-          if (task.id === id) {
-            return { ...task, text: textData };
-          }
-        })
-      );
-    } else {
-      const task = {
-        id: setId(),
-        text: textData,
-        date: date
-      };
-      setToggle();
-      setTasks(prevState => prevState.concat(task));
+
+    let oldId;
+    if (addState && !editState) {
+      oldId = uuidv4();
+    } else if (!addState && editState) {
+      oldId = id;
     }
+    const task = {
+      id: oldId,
+      text: textData,
+      date: date
+    };
+
+    setToggle();
+    dispatch(setSingleTask(task, date, id));
   };
+
+  const [, drag] = useDrag({
+    item: { type: ItemTypes.CARD, id }
+  });
 
   const [, drop] = useDrop({
     accept: ItemTypes.CARD,
-    hover(item: DragItem, monitor: DropTargetMonitor) {
-      if (!ref.current) {
-        return;
+    canDrop: () => false,
+    hover: ({ id: draggedId }: DragItem) => {
+      if (draggedId !== id) {
+        const { index: overIndex, date: overDate } = findIndex(id);
+
+        moveCard(overIndex, overDate, draggedId);
       }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      const hoverBoundingRect = ref.current.getBoundingClientRect();
-
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-      const clientOffset = monitor.getClientOffset();
-
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-
-      moveCard(dragIndex, hoverIndex);
-
-      item.index = hoverIndex;
     }
   });
 
@@ -118,7 +94,7 @@ export const Card: React.FC<CardProps> = ({
     if (!addState && !editState) {
       return (
         <>
-          <span>{`${text} ${id} ${date}`}</span>
+          <span>{`${text} ${date}   ${id}`}</span>
           <button onClick={() => setEditState(true)}>Edit</button>
         </>
       );
@@ -138,20 +114,9 @@ export const Card: React.FC<CardProps> = ({
     }
   };
 
-  const [{ isDragging }, drag] = useDrag({
-    item: { type: ItemTypes.CARD, id, index, text },
-    collect: (monitor: any) => ({
-      isDragging: monitor.isDragging()
-    })
-  });
-
-  const opacity = isDragging ? 0 : 1;
-
-  drag(drop(ref));
-
   return (
-    <div ref={ref} style={{ ...style, opacity }}>
-      {renderBody}
+    <div ref={node => drag(drop(node))} style={{ ...style }}>
+      {renderBody()}
     </div>
   );
 };

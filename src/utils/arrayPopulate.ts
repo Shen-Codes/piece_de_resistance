@@ -1,22 +1,22 @@
 import moment from 'moment';
-import { TimeArray, TimeObj } from '../constants/interfaces';
+import { TimeObj } from '../constants/interfaces';
 
-const ArrayPopulate: any = (timeUnits: number, birthday: string): TimeArray => {
-   let timeArray = new Array(timeUnits).fill(null);
+const ArrayPopulate = (timeUnits: number, birthday: string): Array<TimeObj> => {
+  let timeArray = new Array(timeUnits).fill(null);
 
-   timeArray = timeArray.map(
-      (x, i): TimeObj => {
-         let thisDate = moment(birthday).add(i, 'd');
+  timeArray = timeArray.map(
+    (x, i): TimeObj => {
+      let thisDate = moment(birthday).add(i, 'd');
 
-         return {
-            date: thisDate,
-            dayOfWeek: thisDate.format('dddd').substring(0, 3),
-            tasks: [{}]
-         };
-      }
-   );
+      return {
+        date: thisDate.format('YYYY-MM-DD'),
+        dayOfWeek: thisDate.format('dddd').substring(0, 3),
+        tasks: [{}]
+      };
+    }
+  );
 
-   return timeArray;
+  return timeArray;
 };
 
 export default ArrayPopulate;

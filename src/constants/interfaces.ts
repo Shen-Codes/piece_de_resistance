@@ -1,33 +1,34 @@
 import { TOTAL_DAYS, BIRTHDAY } from './actionTypes';
 
 export interface SetTotalDaysAction {
-   type: typeof TOTAL_DAYS;
-   payload: number;
+  type: typeof TOTAL_DAYS;
+  payload: number;
 }
 
 export interface SetBirthdayAction {
-   type: typeof BIRTHDAY;
-   payload: string;
+  type: typeof BIRTHDAY;
+  payload: string;
 }
 
 export interface DayState {
-   totalDays: number;
-   dayOfWeek: string;
-   birthday: string;
+  totalDays: number;
+  dayOfWeek: string;
+  birthday: string;
+}
+
+export interface TaskObj {
+  id?: string;
+  text?: string;
 }
 
 export interface TimeObj {
-   date: moment.Moment;
-   dayOfWeek?: string;
-   tasks: Array<{}>;
-}
-
-export interface TimeArray {
-   [index: number]: TimeObj;
+  date: string;
+  dayOfWeek?: string;
+  tasks: Array<TaskObj>;
 }
 
 export interface TimeArrayState {
-   daysArray: TimeArray;
-   weeksArray: TimeArray;
-   monthsArray: TimeArray;
+  daysArray: Array<TimeObj>;
+  weeksArray: Array<TimeObj>;
+  monthsArray: Array<TimeObj>;
 }
