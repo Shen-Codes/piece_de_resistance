@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setDaysArray } from '../actions';
-import OneDay from '../components/time-units/oneDay';
+import OneDayTest from '../components/time-units/oneDayTest';
 import { CalendarMain, CalContainer } from './styles';
 
 // const Calendar: React.FC<any> = (props: any): any => {
@@ -64,7 +64,7 @@ import { CalendarMain, CalContainer } from './styles';
 //   );
 // };
 
-const Calendar: React.FC<any> = (props: any): any => {
+const CalendarTest: React.FC<any> = (props: any): any => {
   const { daysArray } = useSelector((state: any) => state.timeArrayState);
 
   return (
@@ -72,7 +72,7 @@ const Calendar: React.FC<any> = (props: any): any => {
       <h1>Calendar</h1>
       <CalContainer>
         {daysArray.map((day: any) => (
-          <OneDay
+          <OneDayTest
             key={day.date}
             dayOfWeek={day.dayOfWeek}
             date={day.date}
@@ -85,4 +85,4 @@ const Calendar: React.FC<any> = (props: any): any => {
   );
 };
 
-export default Calendar;
+export default CalendarTest;

@@ -69,7 +69,7 @@ interface Props {
   daysArray?: any;
 }
 
-const OneDay: React.FC<Props> = ({
+const OneDayTest: React.FC<Props> = ({
   date,
   dayOfWeek,
   tasks,
@@ -104,8 +104,7 @@ const OneDay: React.FC<Props> = ({
       const newDay = { ...day, tasks: newTasks };
       return newDay;
     });
-    // setArrayOfDays(newDaysArray);
-    dispatch(setDaysArray(newDaysArray));
+    setArrayOfDays(newDaysArray);
   };
 
   const findIndex = id => {
@@ -121,43 +120,6 @@ const OneDay: React.FC<Props> = ({
     };
   };
 
-  //   const moveCard = (atIndex, id) => {
-  //     let newDaysArray = [];
-  //     const card = findCard(id);
-
-  //     if (card.date !== date) {
-  //       newDaysArray = arrayOfDays.map(day => {
-  //         if (day.date === card.date) {
-  //           const tasks = day.tasks.filter(task => task.id !== card.id);
-  //           const newDay = { ...day, tasks: tasks };
-
-  //           return newDay;
-  //         } else if (day.date === date) {
-  //           card.date = date;
-  //           const tasks = day.tasks.filter(task => task.id !== card.id);
-  //           tasks.splice(atIndex, 0, card);
-  //           const newDay = { ...day, tasks: tasks };
-
-  //           return newDay;
-  //         } else {
-  //           return day;
-  //         }
-  //       });
-  //     } else {
-  //       newDaysArray = arrayOfDays.map(day => {
-  //         if (day.date === date) {
-  //           const tasks = day.tasks.filter(task => task.id !== card.id);
-  //           tasks.splice(atIndex, 0, card);
-  //           const newDay = { ...day, tasks: tasks };
-  //           return newDay;
-  //         } else {
-  //           return day;
-  //         }
-  //       });
-  //     }
-  //     setArrayOfDays(newDaysArray);
-  //   };
-
   const [, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: (item, monitor) => {
@@ -169,7 +131,6 @@ const OneDay: React.FC<Props> = ({
     <StyledCard ref={drop}>
       <h4>{dayOfWeek}</h4>
       <h4>{date}</h4>
-      {/* {console.log(`this day ${date} render`)} */}
       <button onClick={() => setAddState(true)}>Add</button>
       {addState && (
         <Card
@@ -203,4 +164,4 @@ const OneDay: React.FC<Props> = ({
     </StyledCard>
   );
 };
-export default OneDay;
+export default OneDayTest;

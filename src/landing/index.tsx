@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TotalDays from '../utils/totalDays';
 import Calendar from '../calendar';
+import CalendarTest from '../calendar/calendarTest';
 import ArrayPopulate from '../utils/arrayPopulate';
 import { setDaysArray } from '../actions';
 import './index.css';
@@ -36,7 +37,8 @@ const Landing: React.FC = (): any => {
           </form>
         </div>
       </div>
-      <Calendar />
+      <CalendarTest />
+      {/* <Calendar /> */}
     </div>
   );
 };
