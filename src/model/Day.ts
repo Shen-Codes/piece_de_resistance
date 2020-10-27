@@ -12,6 +12,6 @@ export default function CreateDay(date = new Date().toString()): Day {
   return {
     date,
     dayOfWeek,
-    tasks: []
+    tasks: []Task
   };
 }

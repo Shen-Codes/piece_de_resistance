@@ -2,56 +2,53 @@ import { DAYS_ARRAY, SET_TASKS, SET_TASK } from '../constants/actionTypes';
 import { TimeArrayState } from '../constants/interfaces';
 import moment from 'moment';
 
-const now = moment();
-
 const initialState = {
   daysArray: [
     {
       date: '2020-12-27',
       dayOfWeek: 'Sunday',
-      tasks: [
-        { id: 'xeysdhf', text: 'incorrect hooks?', date: '2020-12-27' },
-        { id: 'xeyabtrh', text: 'but how?', date: '2020-12-27' },
-        {
-          id: 'adsvvmroi',
-          text: 'this is getting annoying',
-          date: '2020-12-27'
-        }
-      ]
+      tasks: []
     },
     {
       date: '2020-12-28',
       dayOfWeek: 'Monday',
-      tasks: [
-        { id: 'abjoieame', text: 'what to do?', date: '2020-12-28' },
-        {
-          id: 'abjoieamb',
-          text: 'read more on the internet?',
-          date: '2020-12-28'
-        },
-        { id: 'aoibihb', text: 'poop', date: '2020-12-28' }
-      ]
+      tasks: []
     },
     {
       date: '2020-12-29',
       dayOfWeek: 'Tuesday',
-      tasks: [
-        {
-          id: 'ajdibanroi',
-          text: 'why is this not working!',
-          date: '2020-12-29'
-        },
-        {
-          id: 'ibripnae',
-          text: 'what the F am I doing wrong?',
-          date: '2020-12-29'
-        },
-        { id: 'waibnpene', text: 'ugh', date: '2020-12-29' }
-      ]
+      tasks: []
     }
   ],
   weeksArray: [],
-  monthsArray: []
+  monthsArray: [],
+  tasksArray: [
+    { id: 'xeysdhf', text: 'incorrect hooks?', date: '2020-12-27' },
+    { id: 'xeyabtrh', text: 'but how?', date: '2020-12-27' },
+    {
+      id: 'adsvvmroi',
+      text: 'this is getting annoying',
+      date: '2020-12-27'
+    },
+    { id: 'abjoieame', text: 'what to do?', date: '2020-12-28' },
+    {
+      id: 'abjoieamb',
+      text: 'read more on the internet?',
+      date: '2020-12-28'
+    },
+    { id: 'aoibihb', text: 'poop', date: '2020-12-28' },
+    {
+      id: 'ajdibanroi',
+      text: 'why is this not working!',
+      date: '2020-12-29'
+    },
+    {
+      id: 'ibripnae',
+      text: 'what the F am I doing wrong?',
+      date: '2020-12-29'
+    },
+    { id: 'waibnpene', text: 'ugh', date: '2020-12-29' }
+  ]
 };
 
 const setDaysArray = (state: TimeArrayState, action: any): TimeArrayState => ({
